@@ -1,121 +1,303 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Pasien/Pengguna - RS Sehat Jiwa</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-        }
-        h1, h2, h3 {
-            color: #007BFF;
-            border-bottom: 2px solid #007BFF;
-            padding-bottom: 5px;
-            margin-top: 25px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .header h1 {
-            border-bottom: none;
-            margin: 0;
-            padding: 0;
-        }
-        .section {
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .profile-info p {
-            margin: 5px 0;
-        }
-        .action-button {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #28a745; /* Success Green */
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-right: 10px;
-            transition: background-color 0.3s;
-        }
-        .action-button:hover {
-            background-color: #1e7e34;
-        }
-        .logout-btn {
-            background-color: #dc3545; /* Danger Red */
-            padding: 8px 15px;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-left: 20px;
-        }
-        .logout-btn:hover {
-            background-color: #bd2130;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #007bff;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
+        margin-top: 25px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .header h1 {
+        border-bottom: none;
+        margin: 0;
+        padding: 0;
+      }
+      .section {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .profile-info p {
+        margin: 5px 0;
+      }
+      .action-button {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #28a745; /* Success Green */
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-right: 10px;
+        transition: background-color 0.3s;
+      }
+      .action-button:hover {
+        background-color: #1e7e34;
+      }
+      .logout-btn {
+        background-color: #dc3545; /* Danger Red */
+        padding: 8px 15px;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-left: 20px;
+      }
+      .logout-btn:hover {
+        background-color: #bd2130;
+      }
     </style>
-</head>
-<body>
-
-<div class="header">
-    <h1 style="font-size: 1.8em;">Dashboard Pengguna</h1>
-    <div>
-        <span style="font-weight: bold; margin-right: 15px;">Halo, Rafli!</span>
+  </head>
+  <body>
+    <div class="header">
+      <h1 style="font-size: 1.8em">Dashboard Pengguna</h1>
+      <div>
+        <span style="font-weight: bold; margin-right: 15px">Halo, Rafli!</span>
         <a href="user-login.html" class="logout-btn">Keluar</a>
+      </div>
     </div>
-</div>
 
-<div class="section" style="background-color: #e9f7ef;">
-    <h2>👤 Data Diri</h2>
-    <div class="profile-info">
+    <div class="section" style="background-color: #e9f7ef">
+      <h2>👤 Data Diri</h2>
+      <div class="profile-info">
         <p><strong>Nama Lengkap:</strong> Rafli</p>
         <p><strong>ID/NIK:</strong> 1234567890</p>
         <p><strong>Status:</strong> Pasien Rawat Jalan</p>
         <p><strong>Jaminan Kesehatan:</strong> BPJS Kesehatan Kelas I</p>
+      </div>
     </div>
-</div>
 
-<div class="section">
-    <h2>📅 Jadwal & Riwayat Layanan</h2>
-    
-    <h3>Jadwal Terdekat</h3>
-    <p><strong>Tanggal:</strong> 25 Oktober 2025</p>
-    <p><strong>Waktu:</strong> 10:00 WIB</p>
-    <p><strong>Layanan:</strong> Konsultasi Psikiatri Dewasa (Dr. Budi Santoso)</p>
-    <p><strong>Lokasi:</strong> Poliklinik A</p>
-    <a href="#" class="action-button">Ganti Jadwal</a>
-    
-    <h3>Riwayat Kunjungan Terakhir</h3>
-    <ul>
+    <div class="section">
+      <h2>📅 Jadwal & Riwayat Layanan</h2>
+
+      <h3>Jadwal Terdekat</h3>
+      <p>
+        <strong>Tanggal:</strong> <span id="jadwalTanggal">25-10-2025</span>
+      </p>
+      <p><strong>Waktu:</strong> <span id="jadwalWaktu">10:00 WIB</span></p>
+      <p>
+        <strong>Layanan:</strong>
+        <span id="jadwalLayanan"
+          >Konsultasi Psikiatri Dewasa (Dr. Budi Santoso)</span
+        >
+      </p>
+      <p>
+        <strong>Lokasi:</strong> <span id="jadwalLokasi">Poliklinik A</span>
+      </p>
+      <a href="#" class="action-button" id="gantiJadwalBtn">Ganti Jadwal</a>
+
+      <h3>Riwayat Kunjungan Terakhir</h3>
+      <ul>
         <li>10 Oktober 2025: Tes Psikologi (Klinik Psikologi)</li>
         <li>1 September 2025: Kontrol Penyakit Dalam (Poli Penyakit Dalam)</li>
-    </ul>
-</div>
+      </ul>
+    </div>
 
-<div class="section">
-    <h2>🔗 Akses Cepat</h2>
-    <a href="#" class="action-button">Lihat Hasil Lab</a>
-    <a href="#" class="action-button" style="background-color: #007BFF;">Pesan Obat Ulang (Resep Elektronik)</a>
-</div>
+    <div class="section">
+      <h2>🔗 Akses Cepat</h2>
+      <a href="#" class="action-button">Lihat Hasil Lab</a>
+      <a href="#" class="action-button" style="background-color: #007bff"
+        >Pesan Obat Ulang (Resep Elektronik)</a
+      >
+    </div>
 
-<div class="footer" style="text-align: center; font-size: 0.9em; margin-top: 30px;">
-    <p>&copy; 2025 RS Sehat Jiwa. | Layanan Darurat 24 Jam: 0880085</p>
-</div>
+    <div
+      class="footer"
+      style="text-align: center; font-size: 0.9em; margin-top: 30px"
+    >
+      <p>&copy; 2025 RS Sehat Jiwa. | Layanan Darurat 24 Jam: 0880085</p>
+    </div>
+    <!-- Popup Form Ganti Jadwal -->
+    <div
+      id="popupForm"
+      style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      "
+    >
+      <div
+        style="
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          width: 320px;
+          text-align: left;
+        "
+      >
+        <h3 style="text-align: center; color: #007bff">
+          Ganti Jadwal Terdekat
+        </h3>
+        <form id="jadwalForm">
+          <label for="tanggalBaru"><strong>Tanggal Baru:</strong></label
+          ><br />
+          <input
+            type="date"
+            id="tanggalBaru"
+            required
+            style="width: 100%; padding: 8px; margin-bottom: 10px"
+          /><br />
 
-</body>
+          <label for="waktuBaru"><strong>Waktu Baru:</strong></label
+          ><br />
+          <input
+            type="time"
+            id="waktuBaru"
+            required
+            style="width: 100%; padding: 8px; margin-bottom: 10px"
+          /><br />
+
+          <label for="layananBaru"><strong>Layanan:</strong></label
+          ><br />
+          <select
+            id="layananBaru"
+            style="width: 100%; padding: 8px; margin-bottom: 10px"
+          >
+            <option>Konsultasi Psikiatri Dewasa (Dr. Budi Santoso)</option>
+            <option>Konsultasi Anak & Remaja (Dr. Siti Rahma)</option>
+            <option>
+              Rehabilitasi Ketergantungan Zat (Dr. Nanda Prasetyo)
+            </option>
+            <option>Psikoterapi Individu</option>
+            <option>Psikoterapi Keluarga</option></select
+          ><br />
+
+          <label for="lokasiBaru"><strong>Lokasi:</strong></label
+          ><br />
+          <select
+            id="lokasiBaru"
+            style="width: 100%; padding: 8px; margin-bottom: 10px"
+          >
+            <option>Poliklinik A</option>
+            <option>Poliklinik B</option>
+            <option>Ruang Konseling 1</option>
+            <option>Ruang Konseling 2</option></select
+          ><br />
+
+          <button
+            type="submit"
+            style="
+              background-color: #28a745;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 4px;
+            "
+          >
+            Simpan
+          </button>
+          <button
+            type="button"
+            id="batalBtn"
+            style="
+              background-color: #dc3545;
+              color: white;
+              border: none;
+              padding: 8px 12px;
+              border-radius: 4px;
+              float: right;
+            "
+          >
+            Batal
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const popup = document.getElementById("popupForm");
+      const openBtn = document.getElementById("gantiJadwalBtn");
+      const cancelBtn = document.getElementById("batalBtn");
+      const form = document.getElementById("jadwalForm");
+
+      // Buka popup
+      openBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        popup.style.display = "flex";
+      });
+
+      // Tutup popup
+      cancelBtn.addEventListener("click", () => {
+        popup.style.display = "none";
+      });
+
+      // Submit perubahan jadwal
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const tanggal = document.getElementById("tanggalBaru").value;
+        const waktu = document.getElementById("waktuBaru").value;
+        const layanan = document.getElementById("layananBaru").value;
+        const lokasi = document.getElementById("lokasiBaru").value;
+
+        if (tanggal && waktu && layanan && lokasi) {
+          // Simpan ke localStorage
+          localStorage.setItem("jadwalTerdekatTanggal", tanggal);
+          localStorage.setItem("jadwalTerdekatWaktu", waktu);
+          localStorage.setItem("jadwalTerdekatLayanan", layanan);
+          localStorage.setItem("jadwalTerdekatLokasi", lokasi);
+
+          // Tampilkan notifikasi
+          alert(
+            `✅ Jadwal berhasil diganti!\n\nTanggal: ${tanggal}\nWaktu: ${waktu} WIB\nLayanan: ${layanan}\nLokasi: ${lokasi}`
+          );
+
+          // Tutup popup
+          popup.style.display = "none";
+
+          // Update tampilan langsung
+          document.getElementById("jadwalTanggal").textContent = tanggal;
+          document.getElementById("jadwalWaktu").textContent = waktu + " WIB";
+          document.getElementById("jadwalLayanan").textContent = layanan;
+          document.getElementById("jadwalLokasi").textContent = lokasi;
+        }
+      });
+
+      // Saat halaman dibuka, tampilkan data dari localStorage kalau ada
+      window.addEventListener("load", () => {
+        const savedTanggal = localStorage.getItem("jadwalTerdekatTanggal");
+        const savedWaktu = localStorage.getItem("jadwalTerdekatWaktu");
+        const savedLayanan = localStorage.getItem("jadwalTerdekatLayanan");
+        const savedLokasi = localStorage.getItem("jadwalTerdekatLokasi");
+
+        if (savedTanggal && savedWaktu && savedLayanan && savedLokasi) {
+          document.getElementById("jadwalTanggal").textContent = savedTanggal;
+          document.getElementById("jadwalWaktu").textContent =
+            savedWaktu + " WIB";
+          document.getElementById("jadwalLayanan").textContent = savedLayanan;
+          document.getElementById("jadwalLokasi").textContent = savedLokasi;
+        }
+      });
+    </script>
+  </body>
 </html>
