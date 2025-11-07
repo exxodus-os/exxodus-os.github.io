@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lihat Hasil Lab | Pusat Layanan Kesehatan</title>
+    <!-- Tailwind CSS dihapus, diganti dengan gaya CSS internal -->
+    <style>
+        /* Gaya inti berdasarkan user-login.html */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa; /* Background lembut */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Mulai dari atas */
+            min-height: 100vh;
+            padding: 30px 20px;
+            margin: 0;
+        }
+        .main-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 850px; /* Lebih lebar untuk data */
+        }
+        
+        /* Header dan Judul */
+        .header-section {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .header-section h1 {
+            color: #007BFF; /* Warna aksen biru */
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .header-section p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* Gaya Kartu Hasil Lab */
+        .results-list {
+            margin-top: 20px;
+        }
+        .lab-card {
+            background-color: #fcfcfc;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            border-left: 5px solid #007BFF; /* Aksesn biru di samping */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 15px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: box-shadow 0.2s;
+        }
+        .lab-card:hover {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (min-width: 600px) {
+            .lab-card {
+                flex-direction: row;
+                align-items: center;
+            }
+            .action-section {
+                min-width: 150px;
+            }
+        }
+
+        .lab-card h2 {
+            color: #333;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 0;
+        }
+        .lab-card .id-text, .lab-card .date-text {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .lab-card .source-text {
+            color: #999;
+            font-size: 0.75em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+        .status-success {
+            background-color: #d4edda; /* Light green */
+            color: #155724; /* Dark green text */
+        }
+        .status-pending {
+            background-color: #f8d7da; /* Light red */
+            color: #721c24; /* Dark red text */
+        }
+        .status-new {
+            background-color: #fff3cd; /* Light yellow */
+            color: #856404; /* Dark yellow text */
+        }
+        
+        /* Tombol Aksi */
+        .action-section {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        @media (min-width: 600px) {
+            .action-section {
+                align-items: flex-end;
+            }
+        }
+        
+        .action-button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            min-width: 120px;
+            text-align: center;
+        }
+        .ready-button {
+            background-color: #28a745; /* Green */
+            color: white;
+        }
+        .ready-button:hover {
+            background-color: #1e7e34;
+        }
+        .pending-button {
+            background-color: #dc3545; /* Red */
+            color: white;
+        }
+        .pending-button:hover {
+            background-color: #c82333;
+        }
+        .back-button {
+            background-color: #6c757d; /* Gray */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+
+        /* Modal/Message Box (didasarkan pada gaya login form) */
+        #message-box {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            z-index: 1000;
+        }
+        #message-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        #message-content h3 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        #message-content button {
+            background-color: #007BFF;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            float: right;
+            width: auto;
+            margin-top: 15px;
+        }
+        #message-content button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header-section">
+            <h1>Hasil Laboratorium Saya</h1>
+            <p>Daftar hasil tes dan pemeriksaan yang dapat Anda lihat dan unduh.</p>
+        </header>
+
+        <!-- Daftar Hasil Lab -->
+        <div id="lab-results-list" class="results-list">
+            <!-- Data Hasil Lab akan diisi oleh JavaScript -->
+        </div>
+
+        <!-- Tombol Kembali/Aksi Lain -->
+        <div style="text-align: center;">
+            <button onclick="goBack()" class="back-button">
+                &larr; Kembali ke Jadwal
+            </button>
+        </div>
+
+        <!-- Modals/Message Box -->
+        <div id="message-box" class="modal-overlay">
+            <div class="modal-content" id="message-content">
+                <h3 id="message-title">Pemberitahuan</h3>
+                <p id="message-text">Isi pesan akan muncul di sini.</p>
+                <div style="clear: both;">
+                    <button onclick="closeMessageBox()">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data riwayat kunjungan yang menjadi dasar hasil lab
+        const userHistoryData = [
+            {
+                id: 'A001',
+                type: 'Hematologi Lengkap',
+                date: '2025-10-12', 
+                source: 'Kunjungan 10 Okt 2025: Tes Psikologi',
+                status: 'Selesai',
+                statusClass: 'status-success', // Mengubah 'colorClass' menjadi 'statusClass'
+                linkText: 'Unduh PDF',
+                isReady: true
+            },
+            {
+                id: 'B045',
+                type: 'Profil Metabolik',
+                date: '2025-09-05', 
+                source: 'Kunjungan 1 Sep 2025: Kontrol Penyakit Dalam',
+                status: 'Selesai',
+                statusClass: 'status-success',
+                linkText: 'Unduh PDF',
+                isReady: true
+            },
+            {
+                id: 'C102',
+                type: 'Tingkat Ketergantungan Zat',
+                date: '2025-11-10', 
+                source: 'Jadwal 10 Nov 2025: Rehabilitasi Zat',
+                status: 'Menunggu',
+                statusClass: 'status-pending',
+                linkText: 'Lihat Status',
+                isReady: false
+            },
+             {
+                id: 'D200',
+                type: 'Urin Rutin',
+                date: '2025-11-07', 
+                source: 'Pemeriksaan Mendadak',
+                status: 'Hasil Baru',
+                statusClass: 'status-new',
+                linkText: 'Lihat Hasil',
+                isReady: true
+            },
+        ];
+
+        const resultsList = document.getElementById('lab-results-list');
+        const messageBox = document.getElementById('message-box');
+        const messageTitle = document.getElementById('message-title');
+        const messageText = document.getElementById('message-text');
+        const messageContent = document.getElementById('message-content');
+
+        /**
+         * Mengonversi tanggal dari format YYYY-MM-DD ke format Indonesia (DD MMMM YYYY).
+         */
+        function formatIndonesianDate(dateString) {
+            if (!dateString) return 'Tanggal tidak tersedia';
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        /**
+         * Menampilkan kotak pesan kustom (pengganti alert()).
+         */
+        function showMessageBox(title, text) {
+            messageTitle.textContent = title;
+            messageText.textContent = text;
+            messageBox.style.display = 'flex';
+            
+            // Animasi masuk: menggunakan class 'show' pada modal-content
+            setTimeout(() => {
+                messageContent.classList.add('show');
+            }, 10);
+        }
+
+        /**
+         * Menutup kotak pesan kustom.
+         */
+        function closeMessageBox() {
+            // Animasi keluar
+            messageContent.classList.remove('show');
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 300); // Sesuaikan dengan durasi transisi CSS
+        }
+
+
+        /**
+         * Fungsi yang dipanggil saat tombol aksi diklik.
+         */
+        function handleActionClick(id, isReady, type) {
+            if (isReady) {
+                showMessageBox(
+                    "Hasil Siap Dilihat",
+                    `Anda telah melihat/mengunduh hasil pemeriksaan: ${type} (ID: ${id}). File PDF akan diunduh sekarang.`
+                );
+            } else {
+                showMessageBox(
+                    "Status Hasil",
+                    `Hasil pemeriksaan ${type} (ID: ${id}) masih dalam proses. Silakan periksa kembali beberapa hari ke depan.`
+                );
+            }
+        }
+
+        /**
+         * Membangun tampilan daftar hasil lab.
+         */
+        function renderLabResults() {
+            resultsList.innerHTML = ''; // Bersihkan daftar
+            userHistoryData.forEach(item => {
+                const formattedDate = formatIndonesianDate(item.date);
+                
+                const card = document.createElement('div');
+                card.className = 'lab-card';
+
+                // Kontainer Detail Kiri
+                const details = document.createElement('div');
+                details.innerHTML = `
+                    <div>
+                        <h2>${item.type}</h2>
+                        <p class="id-text" style="margin-bottom: 5px;">ID Lab: <span>${item.id}</span></p>
+                        <p class="date-text" style="margin-bottom: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" style="height: 16px; width: 16px; display: inline-block; vertical-align: middle; margin-right: 5px; color: #aaa;" viewBox="0 0 20 20" fill="currentColor">
+                              <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                            </svg>
+                            Tanggal: <span style="font-weight: bold;">${formattedDate}</span>
+                        </p>
+                        <p class="source-text">${item.source}</p>
+                    </div>
+                `;
+                card.appendChild(details);
+
+                // Kontainer Aksi Kanan
+                const actionSection = document.createElement('div');
+                actionSection.className = 'action-section';
+                
+                // Badge Status
+                const statusBadge = `<span class="status-badge ${item.statusClass}">${item.status}</span>`;
+                actionSection.innerHTML += statusBadge;
+
+                // Tombol Aksi
+                const actionButton = document.createElement('button');
+                actionButton.className = 'action-button ' + (item.isReady ? 'ready-button' : 'pending-button');
+                actionButton.textContent = item.linkText;
+                
+                // Menambahkan event listener ke tombol
+                actionButton.onclick = () => handleActionClick(item.id, item.isReady, item.type);
+                
+                actionSection.appendChild(actionButton);
+                card.appendChild(actionSection);
+
+                resultsList.appendChild(card);
+            });
+        }
+
+        /**
+         * Fungsi untuk simulasi kembali ke halaman sebelumnya.
+         */
+        function goBack() {
+             showMessageBox(
+                "Navigasi",
+                "Ini adalah simulasi. Di aplikasi nyata, Anda akan kembali ke halaman 'Jadwal' atau 'Beranda'."
+            );
+        }
+
+        // Jalankan fungsi saat dokumen dimuat
+        document.addEventListener('DOMContentLoaded', renderLabResults);
+    </script>
+
+</body>
+</html>
