@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan Obat Ulang | RS Sehat Jiwa</title>
+    <style>
+        /* Gaya inti berdasarkan user-login.html */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa; 
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 30px 20px;
+            margin: 0;
+        }
+        .main-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 850px;
+        }
+        
+        /* Header dan Judul */
+        .header-section {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        .header-section h1 {
+            color: #007BFF; /* Warna aksen biru */
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .header-section p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* Gaya Kartu Resep */
+        .prescription-card {
+            background-color: #fcfcfc;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 5px solid #007BFF;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .prescription-card h2 {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 5px;
+        }
+        .details p {
+            margin: 3px 0;
+            font-size: 0.9em;
+            color: #555;
+        }
+        .details strong {
+            color: #000;
+        }
+        
+        /* Daftar Obat */
+        .medication-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+        .medication-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dotted #eee;
+        }
+        .medication-item:last-child {
+            border-bottom: none;
+        }
+        .medication-item input[type="checkbox"] {
+            margin-right: 15px;
+            width: 18px;
+            height: 18px;
+            accent-color: #007BFF;
+            cursor: pointer;
+        }
+        .medication-details {
+            flex-grow: 1;
+        }
+        .medication-details strong {
+            color: #007BFF;
+            font-size: 1em;
+            display: block;
+        }
+        .medication-details span {
+            font-size: 0.8em;
+            color: #777;
+        }
+
+        /* Status dan Peringatan */
+        .status-info {
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .warning-status {
+            background-color: #fcf8e3; /* Yellow background */
+            color: #8a6d3b; /* Brownish text */
+            border: 1px solid #faebcc;
+        }
+        
+        /* Tombol Aksi */
+        .action-container {
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: right;
+        }
+        .submit-button {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+        }
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+        .back-button {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+        .disabled-button {
+            background-color: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        /* Modal/Message Box (Re-used from lab page) */
+        #message-box {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            z-index: 1000;
+        }
+        #message-content {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        #message-content.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+        #message-content h3 {
+            color: #333;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        #message-content button {
+            background-color: #007BFF;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            float: right;
+            width: auto;
+            margin-top: 15px;
+        }
+        #message-content button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header-section">
+            <h1>Permintaan Obat Ulang</h1>
+            <p>Pilih obat dari resep terakhir Anda yang ingin diajukan untuk diulang.</p>
+        </header>
+
+        <!-- Informasi Resep Aktif -->
+        <div id="prescription-info" class="prescription-card">
+            <!-- Konten ini akan diisi oleh JS -->
+        </div>
+
+        <!-- Form Pemilihan Obat -->
+        <form id="refillForm" onsubmit="handleRefillSubmit(event)">
+            <div class="status-info warning-status">
+                Perhatian: Pengulangan obat tunduk pada persetujuan dokter dan ketersediaan stok.
+            </div>
+
+            <ul id="medication-selection" class="medication-list">
+                <!-- Daftar obat akan diisi oleh JS -->
+            </ul>
+            
+            <!-- Tombol Aksi -->
+            <div class="action-container">
+                <button type="button" onclick="goBack()" class="back-button">
+                    &larr; Kembali
+                </button>
+                <button type="submit" id="submitRefill" class="submit-button disabled-button" disabled>
+                    Ajukan Permintaan Obat Ulang (0)
+                </button>
+            </div>
+        </form>
+
+        <!-- Modals/Message Box -->
+        <div id="message-box" class="modal-overlay">
+            <div class="modal-content" id="message-content">
+                <h3 id="message-title">Pemberitahuan</h3>
+                <p id="message-text">Isi pesan akan muncul di sini.</p>
+                <div style="clear: both;">
+                    <button onclick="closeMessageBox()">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Resep Dummy (berdasarkan kunjungan terakhir: Rehabilitasi Ketergantungan Zat)
+        const activePrescription = {
+            id: 'RSP-20251010-001',
+            date: '2025-10-10',
+            doctor: 'Dr. Nanda Prasetyo',
+            service: 'Rehabilitasi Ketergantungan Zat',
+            validUntil: '2025-12-10',
+            medications: [
+                { id: 'M001', name: 'Naltrexone 50mg', dosage: '1x sehari', quantity: '30 tablet', status: 'Dapat Diulang' },
+                { id: 'M002', name: 'Buspirone 10mg', dosage: '2x sehari', quantity: '60 tablet', status: 'Dapat Diulang' },
+                { id: 'M003', name: 'Vitamin B Complex', dosage: '1x sehari', quantity: '30 tablet', status: 'Dapat Diulang' },
+                { id: 'M004', name: 'Alprazolam 0.5mg', dosage: 'Jika perlu (Max 1x/hari)', quantity: '7 tablet', status: 'Hanya Konsultasi' } // Contoh obat yang tidak bisa diulang
+            ]
+        };
+
+        const medicationSelection = document.getElementById('medication-selection');
+        const prescriptionInfo = document.getElementById('prescription-info');
+        const submitButton = document.getElementById('submitRefill');
+        
+        const messageBox = document.getElementById('message-box');
+        const messageTitle = document.getElementById('message-title');
+        const messageText = document.getElementById('message-text');
+        const messageContent = document.getElementById('message-content');
+
+        /**
+         * Menampilkan kotak pesan kustom (pengganti alert()).
+         */
+        function showMessageBox(title, text, isSuccess = false) {
+            messageTitle.textContent = title;
+            messageText.textContent = text;
+            
+            // Atur warna judul berdasarkan status
+            messageTitle.style.color = isSuccess ? '#28a745' : '#dc3545'; 
+
+            messageBox.style.display = 'flex';
+            
+            // Animasi masuk
+            setTimeout(() => {
+                messageContent.classList.add('show');
+            }, 10);
+        }
+
+        /**
+         * Menutup kotak pesan kustom.
+         */
+        function closeMessageBox() {
+            // Animasi keluar
+            messageContent.classList.remove('show');
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+                messageTitle.style.color = '#333'; // Reset warna judul
+            }, 300);
+        }
+
+        /**
+         * Mengonversi tanggal dari format YYYY-MM-DD ke format Indonesia (DD MMMM YYYY).
+         */
+        function formatIndonesianDate(dateString) {
+            if (!dateString) return 'Tanggal tidak tersedia';
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        /**
+         * Render detail resep di bagian atas halaman.
+         */
+        function renderPrescriptionInfo() {
+            const validDate = formatIndonesianDate(activePrescription.validUntil);
+            const issueDate = formatIndonesianDate(activePrescription.date);
+
+            prescriptionInfo.innerHTML = `
+                <h2>Detail Resep Aktif</h2>
+                <div class="details">
+                    <p><strong>ID Resep:</strong> ${activePrescription.id}</p>
+                    <p><strong>Tanggal Resep:</strong> ${issueDate}</p>
+                    <p><strong>Layanan:</strong> ${activePrescription.service}</p>
+                    <p><strong>Dokter:</strong> ${activePrescription.doctor}</p>
+                    <p><strong>Berlaku Hingga:</strong> <span style="color: #dc3545; font-weight: bold;">${validDate}</span></p>
+                </div>
+            `;
+        }
+
+        /**
+         * Render daftar obat yang dapat dipilih.
+         */
+        function renderMedicationSelection() {
+            medicationSelection.innerHTML = '';
+            activePrescription.medications.forEach(med => {
+                const isRepeatable = med.status === 'Dapat Diulang';
+                
+                const listItem = document.createElement('li');
+                listItem.className = 'medication-item';
+                
+                let inputHtml = '';
+                let detailsStyle = '';
+
+                if (isRepeatable) {
+                    inputHtml = `<input type="checkbox" name="medication" value="${med.id}" data-name="${med.name}" onchange="updateSubmitButton()">`;
+                } else {
+                    inputHtml = `<span style="width: 18px; height: 18px; text-align: center; margin-right: 15px; color: #dc3545;">❌</span>`;
+                    detailsStyle = 'color: #999;';
+                }
+
+                listItem.innerHTML = `
+                    ${inputHtml}
+                    <div class="medication-details" style="${detailsStyle}">
+                        <strong>${med.name}</strong>
+                        <span>Aturan Pakai: ${med.dosage} | Sisa Stok: ${med.quantity}</span>
+                        ${!isRepeatable ? `<p style="font-size: 0.75em; color: #dc3545; margin-top: 3px;">Status: ${med.status} (Tidak dapat diulang tanpa konsultasi)</p>` : ''}
+                    </div>
+                `;
+                
+                // Jika tidak dapat diulang, nonaktifkan interaksi
+                if (!isRepeatable) {
+                    listItem.style.opacity = '0.6';
+                }
+
+                medicationSelection.appendChild(listItem);
+            });
+        }
+
+        /**
+         * Memperbarui status tombol submit berdasarkan jumlah obat yang dipilih.
+         */
+        function updateSubmitButton() {
+            const selectedCheckboxes = document.querySelectorAll('#medication-selection input[type="checkbox"]:checked');
+            const count = selectedCheckboxes.length;
+            
+            submitButton.textContent = `Ajukan Permintaan Obat Ulang (${count})`;
+
+            if (count > 0) {
+                submitButton.classList.remove('disabled-button');
+                submitButton.removeAttribute('disabled');
+            } else {
+                submitButton.classList.add('disabled-button');
+                submitButton.setAttribute('disabled', 'true');
+            }
+        }
+
+        /**
+         * Handler untuk proses pengajuan form.
+         */
+        function handleRefillSubmit(event) {
+            event.preventDefault();
+            
+            const selectedMeds = Array.from(document.querySelectorAll('#medication-selection input[type="checkbox"]:checked'))
+                                     .map(cb => cb.dataset.name);
+            
+            if (selectedMeds.length === 0) {
+                showMessageBox("Kesalahan Pengajuan", "Mohon pilih minimal satu jenis obat untuk diajukan pengulangan.");
+                return;
+            }
+
+            const medsList = selectedMeds.map(name => `- ${name}`).join('\n');
+
+            showMessageBox(
+                "Pengajuan Berhasil!",
+                `Permintaan pengulangan untuk obat berikut telah diajukan ke **${activePrescription.doctor}**:\n\n${medsList}\n\nPermintaan akan diproses dalam 1-2 hari kerja.`,
+                true // isSuccess = true
+            );
+            
+            // Di aplikasi nyata: Kirim data ke backend dan nonaktifkan/reset form
+            document.getElementById('refillForm').reset();
+            updateSubmitButton();
+        }
+
+        /**
+         * Fungsi untuk simulasi kembali ke halaman sebelumnya.
+         */
+        function goBack() {
+             showMessageBox(
+                "Navigasi",
+                "Ini adalah simulasi. Di aplikasi nyata, Anda akan kembali ke halaman 'Jadwal' atau 'Beranda'."
+            );
+        }
+
+        // Jalankan fungsi saat dokumen dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPrescriptionInfo();
+            renderMedicationSelection();
+            updateSubmitButton(); // Inisialisasi status tombol
+        });
+    </script>
+
+</body>
+</html>
