@@ -1,365 +1,381 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lihat Hasil Lab | Pusat Layanan Kesehatan</title>
     <!-- Tailwind CSS dihapus, diganti dengan gaya CSS internal -->
     <style>
-        /* Gaya inti berdasarkan user-login.html */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f8f9fa; /* Background lembut */
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Mulai dari atas */
-            min-height: 100vh;
-            padding: 30px 20px;
-            margin: 0;
-        }
-        .main-content {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 850px; /* Lebih lebar untuk data */
-        }
-        
-        /* Header dan Judul */
-        .header-section {
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 20px;
-        }
-        .header-section h1 {
-            color: #007BFF; /* Warna aksen biru */
-            font-size: 1.8em;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .header-section p {
-            color: #666;
-            font-size: 0.9em;
-        }
+      /* Gaya inti berdasarkan user-login.html */
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        background-color: #f8f9fa; /* Background lembut */
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; /* Mulai dari atas */
+        min-height: 100vh;
+        padding: 30px 20px;
+        margin: 0;
+      }
+      .main-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 850px; /* Lebih lebar untuk data */
+      }
 
-        /* Gaya Kartu Hasil Lab */
-        .results-list {
-            margin-top: 20px;
-        }
+      /* Header dan Judul */
+      .header-section {
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 20px;
+      }
+      .header-section h1 {
+        color: #007bff; /* Warna aksen biru */
+        font-size: 1.8em;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .header-section p {
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      /* Gaya Kartu Hasil Lab */
+      .results-list {
+        margin-top: 20px;
+      }
+      .lab-card {
+        background-color: #fcfcfc;
+        padding: 20px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        border-left: 5px solid #007bff; /* Aksesn biru di samping */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 15px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        transition: box-shadow 0.2s;
+      }
+      .lab-card:hover {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (min-width: 600px) {
         .lab-card {
-            background-color: #fcfcfc;
-            padding: 20px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            border-left: 5px solid #007BFF; /* Aksesn biru di samping */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            gap: 15px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: box-shadow 0.2s;
+          flex-direction: row;
+          align-items: center;
         }
-        .lab-card:hover {
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        @media (min-width: 600px) {
-            .lab-card {
-                flex-direction: row;
-                align-items: center;
-            }
-            .action-section {
-                min-width: 150px;
-            }
-        }
-
-        .lab-card h2 {
-            color: #333;
-            font-size: 1.2em;
-            font-weight: bold;
-            margin: 0;
-        }
-        .lab-card .id-text, .lab-card .date-text {
-            color: #666;
-            font-size: 0.9em;
-        }
-        .lab-card .source-text {
-            color: #999;
-            font-size: 0.75em;
-            font-style: italic;
-            margin-top: 5px;
-        }
-        
-        /* Status Badges */
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.7em;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-align: center;
-        }
-        .status-success {
-            background-color: #d4edda; /* Light green */
-            color: #155724; /* Dark green text */
-        }
-        .status-pending {
-            background-color: #f8d7da; /* Light red */
-            color: #721c24; /* Dark red text */
-        }
-        .status-new {
-            background-color: #fff3cd; /* Light yellow */
-            color: #856404; /* Dark yellow text */
-        }
-        
-        /* Tombol Aksi */
         .action-section {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
+          min-width: 150px;
         }
-        @media (min-width: 600px) {
-            .action-section {
-                align-items: flex-end;
-            }
-        }
-        
-        .action-button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.9em;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            min-width: 120px;
-            text-align: center;
-        }
-        .ready-button {
-            background-color: #28a745; /* Green */
-            color: white;
-        }
-        .ready-button:hover {
-            background-color: #1e7e34;
-        }
-        .pending-button {
-            background-color: #dc3545; /* Red */
-            color: white;
-        }
-        .pending-button:hover {
-            background-color: #c82333;
-        }
-        .back-button {
-            background-color: #6c757d; /* Gray */
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            font-size: 1em;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .back-button:hover {
-            background-color: #5a6268;
-        }
+      }
 
-        /* Modal/Message Box (didasarkan pada gaya login form) */
-        #message-box {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            z-index: 1000;
+      .lab-card h2 {
+        color: #333;
+        font-size: 1.2em;
+        font-weight: bold;
+        margin: 0;
+      }
+      .lab-card .id-text,
+      .lab-card .date-text {
+        color: #666;
+        font-size: 0.9em;
+      }
+      .lab-card .source-text {
+        color: #999;
+        font-size: 0.75em;
+        font-style: italic;
+        margin-top: 5px;
+      }
+
+      /* Status Badges */
+      .status-badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.7em;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-align: center;
+      }
+      .status-success {
+        background-color: #d4edda; /* Light green */
+        color: #155724; /* Dark green text */
+      }
+      .status-pending {
+        background-color: #f8d7da; /* Light red */
+        color: #721c24; /* Dark red text */
+      }
+      .status-new {
+        background-color: #fff3cd; /* Light yellow */
+        color: #856404; /* Dark yellow text */
+      }
+
+      /* Tombol Aksi */
+      .action-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      @media (min-width: 600px) {
+        .action-section {
+          align-items: flex-end;
         }
-        #message-content {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 400px;
-            transform: scale(0.95);
-            opacity: 0;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-        }
-        #message-content h3 {
-            color: #333;
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        #message-content button {
-            background-color: #007BFF;
-            color: white;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            float: right;
-            width: auto;
-            margin-top: 15px;
-        }
-        #message-content button:hover {
-            background-color: #0056b3;
-        }
+      }
+
+      .action-button {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+        font-weight: bold;
+        transition: background-color 0.3s;
+        min-width: 120px;
+        text-align: center;
+      }
+      .ready-button {
+        background-color: #28a745; /* Green */
+        color: white;
+      }
+      .ready-button:hover {
+        background-color: #1e7e34;
+      }
+      .pending-button {
+        background-color: #dc3545; /* Red */
+        color: white;
+      }
+      .pending-button:hover {
+        background-color: #c82333;
+      }
+      .back-button {
+        background-color: #6c757d; /* Gray */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 1em;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .back-button:hover {
+        background-color: #5a6268;
+      }
+
+      /* Modal/Message Box (didasarkan pada gaya login form) */
+      #message-box {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        z-index: 1000;
+      }
+      #message-content {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+        transform: scale(0.95);
+        opacity: 0;
+        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+      }
+      #message-content h3 {
+        color: #333;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+      }
+      #message-content button {
+        background-color: #007bff;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        float: right;
+        width: auto;
+        margin-top: 15px;
+      }
+      #message-content button:hover {
+        background-color: #0056b3;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
+    <div
+      id="pdf-content-template"
+      style="
+        position: absolute;
+        left: -9999px;
+        width: 800px;
+        padding: 20px;
+        background-color: white;
+      "
+    ></div>
     <div class="main-content">
-        <!-- Header -->
-        <header class="header-section">
-            <h1>Hasil Laboratorium Saya</h1>
-            <p>Daftar hasil tes dan pemeriksaan yang dapat Anda lihat dan unduh.</p>
-        </header>
+      <!-- Header -->
+      <header class="header-section">
+        <h1>Hasil Laboratorium Saya</h1>
+        <p>Daftar hasil tes dan pemeriksaan yang dapat Anda lihat dan unduh.</p>
+      </header>
 
-        <!-- Daftar Hasil Lab -->
-        <div id="lab-results-list" class="results-list">
-            <!-- Data Hasil Lab akan diisi oleh JavaScript -->
-        </div>
+      <!-- Daftar Hasil Lab -->
+      <div id="lab-results-list" class="results-list">
+        <!-- Data Hasil Lab akan diisi oleh JavaScript -->
+      </div>
 
-        <!-- Tombol Kembali/Aksi Lain -->
-        <div style="text-align: center;">
-            <a href="user-profile.html" class="back-button">Kembali</a>
-        </div>
+      <!-- Tombol Kembali/Aksi Lain -->
+      <div style="text-align: center">
+        <a href="user-profile.html" class="back-button">Kembali</a>
+      </div>
 
-        <!-- Modals/Message Box -->
-        <div id="message-box" class="modal-overlay">
-            <div class="modal-content" id="message-content">
-                <h3 id="message-title">Pemberitahuan</h3>
-                <p id="message-text">Isi pesan akan muncul di sini.</p>
-                <div style="clear: both;">
-                    <button onclick="closeMessageBox()">Tutup</button>
-                </div>
-            </div>
+      <!-- Modals/Message Box -->
+      <div id="message-box" class="modal-overlay">
+        <div class="modal-content" id="message-content">
+          <h3 id="message-title">Pemberitahuan</h3>
+          <p id="message-text">Isi pesan akan muncul di sini.</p>
+          <div style="clear: both">
+            <button onclick="closeMessageBox()">Tutup</button>
+          </div>
         </div>
+      </div>
     </div>
 
     <script>
-        // Data riwayat kunjungan yang menjadi dasar hasil lab
-        const userHistoryData = [
-            {
-                id: 'A001',
-                type: 'Hematologi Lengkap',
-                date: '2025-10-12', 
-                source: 'Kunjungan 10 Okt 2025: Tes Psikologi',
-                status: 'Selesai',
-                statusClass: 'status-success', // Mengubah 'colorClass' menjadi 'statusClass'
-                linkText: 'Unduh PDF',
-                isReady: true
-            },
-            {
-                id: 'B045',
-                type: 'Profil Metabolik',
-                date: '2025-09-05', 
-                source: 'Kunjungan 1 Sep 2025: Kontrol Penyakit Dalam',
-                status: 'Selesai',
-                statusClass: 'status-success',
-                linkText: 'Unduh PDF',
-                isReady: true
-            },
-            {
-                id: 'C102',
-                type: 'Tingkat Ketergantungan Zat',
-                date: '2025-11-10', 
-                source: 'Jadwal 10 Nov 2025: Rehabilitasi Zat',
-                status: 'Menunggu',
-                statusClass: 'status-pending',
-                linkText: 'Lihat Status',
-                isReady: false
-            },
-             {
-                id: 'D200',
-                type: 'Urin Rutin',
-                date: '2025-11-07', 
-                source: 'Pemeriksaan Mendadak',
-                status: 'Hasil Baru',
-                statusClass: 'status-new',
-                linkText: 'Lihat Hasil',
-                isReady: true
-            },
-        ];
+      // Data riwayat kunjungan yang menjadi dasar hasil lab
+      const userHistoryData = [
+        {
+          id: "A001",
+          type: "Hematologi Lengkap",
+          date: "2025-10-12",
+          source: "Kunjungan 10 Okt 2025: Tes Psikologi",
+          status: "Selesai",
+          statusClass: "status-success", // Mengubah 'colorClass' menjadi 'statusClass'
+          linkText: "Unduh PDF",
+          isReady: true,
+        },
+        {
+          id: "B045",
+          type: "Profil Metabolik",
+          date: "2025-09-05",
+          source: "Kunjungan 1 Sep 2025: Kontrol Penyakit Dalam",
+          status: "Selesai",
+          statusClass: "status-success",
+          linkText: "Unduh PDF",
+          isReady: true,
+        },
+        {
+          id: "C102",
+          type: "Tingkat Ketergantungan Zat",
+          date: "2025-11-10",
+          source: "Jadwal 10 Nov 2025: Rehabilitasi Zat",
+          status: "Menunggu",
+          statusClass: "status-pending",
+          linkText: "Lihat Status",
+          isReady: false,
+        },
+        {
+          id: "D200",
+          type: "Urin Rutin",
+          date: "2025-11-07",
+          source: "Pemeriksaan Mendadak",
+          status: "Hasil Baru",
+          statusClass: "status-new",
+          linkText: "Lihat Hasil",
+          isReady: true,
+        },
+      ];
 
-        const resultsList = document.getElementById('lab-results-list');
-        const messageBox = document.getElementById('message-box');
-        const messageTitle = document.getElementById('message-title');
-        const messageText = document.getElementById('message-text');
-        const messageContent = document.getElementById('message-content');
+      const resultsList = document.getElementById("lab-results-list");
+      const messageBox = document.getElementById("message-box");
+      const messageTitle = document.getElementById("message-title");
+      const messageText = document.getElementById("message-text");
+      const messageContent = document.getElementById("message-content");
 
-        /**
-         * Mengonversi tanggal dari format YYYY-MM-DD ke format Indonesia (DD MMMM YYYY).
-         */
-        function formatIndonesianDate(dateString) {
-            if (!dateString) return 'Tanggal tidak tersedia';
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            return new Date(dateString).toLocaleDateString('id-ID', options);
+      /**
+       * Mengonversi tanggal dari format YYYY-MM-DD ke format Indonesia (DD MMMM YYYY).
+       */
+      function formatIndonesianDate(dateString) {
+        if (!dateString) return "Tanggal tidak tersedia";
+        const options = { day: "numeric", month: "long", year: "numeric" };
+        return new Date(dateString).toLocaleDateString("id-ID", options);
+      }
+
+      /**
+       * Menampilkan kotak pesan kustom (pengganti alert()).
+       */
+      function showMessageBox(title, text) {
+        messageTitle.textContent = title;
+        messageText.textContent = text;
+        messageBox.style.display = "flex";
+
+        // Animasi masuk: menggunakan class 'show' pada modal-content
+        setTimeout(() => {
+          messageContent.classList.add("show");
+        }, 10);
+      }
+
+      /**
+       * Menutup kotak pesan kustom.
+       */
+      function closeMessageBox() {
+        // Animasi keluar
+        messageContent.classList.remove("show");
+        setTimeout(() => {
+          messageBox.style.display = "none";
+        }, 300); // Sesuaikan dengan durasi transisi CSS
+      }
+
+      /**
+       * Fungsi yang dipanggil saat tombol aksi diklik.
+       * Dimodifikasi untuk memanggil generatePDF().
+       */
+      function handleActionClick(item) {
+        if (item.isReady) {
+          // Tidak perlu lagi item.pdfUrl karena kita membuatnya
+
+          // Panggil fungsi pembuatan PDF dinamis
+          generatePDF(item);
+
+          // Tampilkan pesan konfirmasi
+          showMessageBox(
+            "Membuat Dokumen",
+            `Dokumen hasil/resep untuk ${item.type} (ID: ${item.id}) sedang dibuat dan akan diunduh secara otomatis.`
+          );
+        } else {
+          // Tampilkan pesan status menunggu seperti sebelumnya
+          showMessageBox(
+            "Status Hasil",
+            `Hasil pemeriksaan ${item.type} (ID: ${item.id}) masih dalam proses. Silakan periksa kembali beberapa hari ke depan.`
+          );
         }
+      }
+      /**
+       * Membangun tampilan daftar hasil lab.
+       */
+      function renderLabResults() {
+        resultsList.innerHTML = ""; // Bersihkan daftar
+        userHistoryData.forEach((item) => {
+          const formattedDate = formatIndonesianDate(item.date);
 
-        /**
-         * Menampilkan kotak pesan kustom (pengganti alert()).
-         */
-        function showMessageBox(title, text) {
-            messageTitle.textContent = title;
-            messageText.textContent = text;
-            messageBox.style.display = 'flex';
-            
-            // Animasi masuk: menggunakan class 'show' pada modal-content
-            setTimeout(() => {
-                messageContent.classList.add('show');
-            }, 10);
-        }
+          const card = document.createElement("div");
+          card.className = "lab-card";
 
-        /**
-         * Menutup kotak pesan kustom.
-         */
-        function closeMessageBox() {
-            // Animasi keluar
-            messageContent.classList.remove('show');
-            setTimeout(() => {
-                messageBox.style.display = 'none';
-            }, 300); // Sesuaikan dengan durasi transisi CSS
-        }
-
-
-        /**
-         * Fungsi yang dipanggil saat tombol aksi diklik.
-         */
-        function handleActionClick(id, isReady, type) {
-            if (isReady) {
-                showMessageBox(
-                    "Hasil Siap Dilihat",
-                    `Anda telah melihat/mengunduh hasil pemeriksaan: ${type} (ID: ${id}). File PDF akan diunduh sekarang.`
-                );
-            } else {
-                showMessageBox(
-                    "Status Hasil",
-                    `Hasil pemeriksaan ${type} (ID: ${id}) masih dalam proses. Silakan periksa kembali beberapa hari ke depan.`
-                );
-            }
-        }
-
-        /**
-         * Membangun tampilan daftar hasil lab.
-         */
-        function renderLabResults() {
-            resultsList.innerHTML = ''; // Bersihkan daftar
-            userHistoryData.forEach(item => {
-                const formattedDate = formatIndonesianDate(item.date);
-                
-                const card = document.createElement('div');
-                card.className = 'lab-card';
-
-                // Kontainer Detail Kiri
-                const details = document.createElement('div');
-                details.innerHTML = `
+          // Kontainer Detail Kiri
+          const details = document.createElement("div");
+          details.innerHTML = `
                     <div>
                         <h2>${item.type}</h2>
                         <p class="id-text" style="margin-bottom: 5px;">ID Lab: <span>${item.id}</span></p>
@@ -372,44 +388,119 @@
                         <p class="source-text">${item.source}</p>
                     </div>
                 `;
-                card.appendChild(details);
+          card.appendChild(details);
 
-                // Kontainer Aksi Kanan
-                const actionSection = document.createElement('div');
-                actionSection.className = 'action-section';
-                
-                // Badge Status
-                const statusBadge = `<span class="status-badge ${item.statusClass}">${item.status}</span>`;
-                actionSection.innerHTML += statusBadge;
+          // Kontainer Aksi Kanan
+          const actionSection = document.createElement("div");
+          actionSection.className = "action-section";
 
-                // Tombol Aksi
-                const actionButton = document.createElement('button');
-                actionButton.className = 'action-button ' + (item.isReady ? 'ready-button' : 'pending-button');
-                actionButton.textContent = item.linkText;
-                
-                // Menambahkan event listener ke tombol
-                actionButton.onclick = () => handleActionClick(item.id, item.isReady, item.type);
-                
-                actionSection.appendChild(actionButton);
-                card.appendChild(actionSection);
+          // Badge Status
+          const statusBadge = `<span class="status-badge ${item.statusClass}">${item.status}</span>`;
+          actionSection.innerHTML += statusBadge;
 
-                resultsList.appendChild(card);
-            });
-        }
+          // Tombol Aksi
+          const actionButton = document.createElement("button");
+          actionButton.className =
+            "action-button " +
+            (item.isReady ? "ready-button" : "pending-button");
+          actionButton.textContent = item.linkText;
 
-        /**
-         * Fungsi untuk simulasi kembali ke halaman sebelumnya.
-         */
-        function goBack() {
-             showMessageBox(
-                "Navigasi",
-                "Ini adalah simulasi. Di aplikasi nyata, Anda akan kembali ke halaman 'Jadwal' atau 'Beranda'."
-            );
-        }
+          // Menambahkan event listener ke tombol
+          actionButton.onclick = () => handleActionClick(item);
 
-        // Jalankan fungsi saat dokumen dimuat
-        document.addEventListener('DOMContentLoaded', renderLabResults);
+          actionSection.appendChild(actionButton);
+          card.appendChild(actionSection);
+
+          resultsList.appendChild(card);
+        });
+      }
+
+      /**
+       * Fungsi untuk simulasi kembali ke halaman sebelumnya.
+       */
+      function goBack() {
+        showMessageBox(
+          "Navigasi",
+          "Ini adalah simulasi. Di aplikasi nyata, Anda akan kembali ke halaman 'Jadwal' atau 'Beranda'."
+        );
+      }
+
+      // Jalankan fungsi saat dokumen dimuat
+      document.addEventListener("DOMContentLoaded", renderLabResults);
+
+      /**
+       * Mengisi template HTML dengan data item dan membuat PDF.
+       * @param {object} item Objek data hasil lab yang akan dicetak.
+       */
+      function generatePDF(item) {
+        const template = document.getElementById("pdf-content-template");
+
+        // 1. Isi Template dengan Data Hasil Lab
+        template.innerHTML = `
+        <div style="font-family: Arial, sans-serif; padding: 30px;">
+            <h1 style="color: #007BFF; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                Resep Dokter & Hasil Lab
+            </h1>
+            <p style="font-size: 1.2em; font-weight: bold; margin-bottom: 20px;">
+                Pemeriksaan: ${item.type}
+            </p>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <div><strong>ID Dokumen:</strong> ${item.id}</div>
+                <div><strong>Tanggal:</strong> ${formatIndonesianDate(
+                  item.date
+                )}</div>
+            </div>
+            
+            <h2 style="color: #333; margin-top: 20px; border-bottom: 1px solid #eee;">Detail Resep</h2>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 5px 0;">- Obat A (2x sehari)</li>
+                <li style="padding: 5px 0;">- Obat B (Sebelum tidur)</li>
+                <li style="padding: 5px 0;">- Paracetamol (jika perlu)</li>
+            </ul>
+
+            <p style="margin-top: 30px; padding: 15px; border: 1px dashed #ccc; background-color: #f9f9f9;">
+                Catatan Dokter (Simulasi): Kondisi pasien stabil, mohon lanjutkan terapi obat sesuai resep ini dan kontrol ulang bulan depan.
+            </p>
+            
+            <p style="text-align: right; margin-top: 50px;">
+                Tanda Tangan Dokter: [Dr. Budi Santoso]
+            </p>
+        </div>
+    `;
+
+        // 2. Konversi HTML ke Canvas lalu ke PDF
+        html2canvas(template, { scale: 2 }).then((canvas) => {
+          const imgData = canvas.toDataURL("image/jpeg", 1.0);
+          const { jsPDF } = window.jspdf;
+          const pdf = new jsPDF("p", "mm", "a4"); // 'p' for portrait, 'mm' unit, 'a4' size
+          const imgWidth = 210; // A4 width in mm
+          const pageHeight = 297; // A4 height in mm
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          let heightLeft = imgHeight;
+          let position = 0;
+
+          // Tambahkan Gambar (Konten HTML) ke PDF
+          pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+
+          // Tambahkan halaman baru jika konten lebih panjang dari satu halaman
+          while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+          }
+
+          // 3. Simpan File PDF
+          pdf.save(`Resep_Lab_${item.id}_${item.type.replace(/\s/g, "_")}.pdf`);
+
+          // 4. Bersihkan template
+          template.innerHTML = "";
+        });
+      }
     </script>
-
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  </body>
 </html>
